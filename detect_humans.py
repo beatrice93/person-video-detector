@@ -19,7 +19,7 @@ def argsParser():
     arg_parse = argparse.ArgumentParser()
     arg_parse.add_argument("-i", "--input", type=str, help="Path to input video file")
     arg_parse.add_argument("-o", "--output", default=None, type=str, help="Path to output video file (optional)")
-    arg_parse.add_argument("-c", "--config_folder", default=None, type=str, help="Path to YOLO configuration folder (optional)")
+    arg_parse.add_argument("-c", "--config_folder", default="yolov4_cfg", type=str, help="Path to YOLO configuration folder (optional)")
     arg_parse.add_argument("-d", "--display", action="store_true", help="Optional; displays the video as it is parsed")
     args = vars(arg_parse.parse_args())
 
@@ -45,20 +45,24 @@ def check_config(args):
     Checks whether configuration files are present in configuration folder.
     If not, downloads files.
     """
-    yolo_folder = ""
-    if args["config_folder"] is not None:
-        yolo_folder = args["config_folder"] + "/"
+    yolo_folder = args["config_folder"]
     
-    print("Checking configuration files in " + yolo_folder + "...")
-    if not os.path.isfile(yolo_folder + "yolov4.weights"):
-        wget.download("https://pjreddie.com/media/files/yolov4.weights",
-                      out=yolo_folder + "yolov4.weights")
+    if not os.path.exists(yolo_folder):
+        os.mkdir(yolo_folder)
+    
+    print("\n\nChecking configuration files in " + yolo_folder + "...")
+    if not os.path.isfile(yolo_folder + "/" + "yolov4.weights"):
+        print("Downloading weights...")
+        wget.download("https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights",
+                      out=yolo_folder + "/" + "yolov4.weights")
     if not os.path.isfile(yolo_folder + "coco.names"):
+        print("Downloading class names...")
         wget.download("https://github.com/pjreddie/darknet/blob/master/data/coco.names",
-                     out=yolo_folder + "coco.names" )
+                     out=yolo_folder + "/" + "coco.names" )
     if not os.path.isfile(yolo_folder + "yolov4.cfg"):
-        wget.download("https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov4.cfg",
-                     out=yolo_folder + "yolov4.cfg")
+        print("Downloading config file...")
+        wget.download("https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg",
+                     out=yolo_folder + "/" + "yolov4.cfg")
     print("Done.\n")
 
     
