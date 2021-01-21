@@ -15,7 +15,7 @@ To run the script:
 
 - in a terminal, run 
 
-  ```python detect_humans.py -i "path/to/video" -o "path/to/output" -c "path/to/config/folder" -d```
+  ```python detect_humans.py -i path/to/video -o path/to/output -c "path/to/config/folder" -d```
 
 - sit back and watch :)
 
