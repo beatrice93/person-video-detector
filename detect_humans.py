@@ -55,15 +55,15 @@ def check_config(args):
         print("Downloading weights...")
         wget.download("https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights",
                       out=yolo_folder + "/" + "yolov4.weights")
-    if not os.path.isfile(yolo_folder + "coco.names"):
+    if not os.path.isfile(yolo_folder + "/" +"coco.names"):
         print("\nDownloading class names...")
         wget.download("https://github.com/pjreddie/darknet/blob/master/data/coco.names",
                      out=yolo_folder + "/" + "coco.names" )
-    if not os.path.isfile(yolo_folder + "yolov4.cfg"):
+    if not os.path.isfile(yolo_folder + "/" + "yolov4.cfg"):
         print("\nDownloading config file...")
         wget.download("https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg",
                      out=yolo_folder + "/" + "yolov4.cfg")
-    print("Done.\n")
+    print("\nDone.\n")
 
     
 def detect(frame, net, output_layers):
